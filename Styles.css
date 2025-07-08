@@ -6,7 +6,11 @@ body {
 	font-family: Arial, Helvetica, sans-serif;
 	color: white
 }
-
+html{
+	background-color: #0daca4;
+	overflow-x:hidden;
+	overflow-y:auto;
+}
 img {
 	max-width: 100%;
 	width: auto;
@@ -34,10 +38,7 @@ output {
 div#tswsidecol {
 	display:flex;
 	flex-wrap:wrap;
-	padding : 10px;
-	float: left,top;
-	position: relative;
-	top:-15px;
+	padding-top : 10px;
 	width: 18%;
 	min-height: 100vh;
 	height:100%;
@@ -50,7 +51,8 @@ div#tswsidecol {
 div#tswcontent {
 	float: right;
 	width: 80%;
-	color: #000;
+	color: #fff;
+	flex-wrap:wrap;
 	/* background-color: #fff ; */
 }
 
@@ -70,10 +72,10 @@ div#tswcontproper {
 	padding-left: 5px;
 	padding-right: 5px;
 }
-
 div#tswcontainer {
-	height: 100%;
-	width:100wh;
+	height: 100vh;
+	width:100vw;
+	height:100%;
 	color: inherit;
 	background-color: #097c69;
 	
@@ -86,27 +88,25 @@ div#tswothersideproper {
 }
 
 div#tswheader {
+	
 	color: #000;
-	width: 100vh;
+	width: 100vw;
 	margin:0;
-	position:relative;
-	box-sizing: border-box;
-	top:-16px;
-	height:100%;
+	margin: top 0;
+	height:10%;
 	background-color: #0daca4;
 }
 
 div#tswfooter {
+
 	color: #000;
 	margin:0;
-	position:relative;
-	top:16px;
-	padding:16px;
+	margin-left:0;
+	width:100vw;
+	align-self:center;
+	height:6vh;
 	background-color: #0daca4;
-}
-div{
-	background-color: #0daca4;
-}
+} 
 .Image {
 	width: 60%;
 	height: 600px
