@@ -33,6 +33,7 @@ output {
 
 div#tswsidecol {
 	display:flex;
+	flex-wrap:wrap;
 	padding : 10px;
 	float: left,top;
 	position: relative;
@@ -71,10 +72,11 @@ div#tswcontproper {
 }
 
 div#tswcontainer {
+	height: 100%;
+	width:100wh;
 	color: inherit;
 	background-color: #097c69;
-	width:100%;
-	height:100%
+	
 }
 
 div#tswsideproper,
@@ -85,8 +87,10 @@ div#tswothersideproper {
 
 div#tswheader {
 	color: #000;
+	width: 100vh;
 	margin:0;
 	position:relative;
+	box-sizing: border-box;
 	top:-16px;
 	height:100%;
 	background-color: #0daca4;
@@ -100,7 +104,9 @@ div#tswfooter {
 	padding:16px;
 	background-color: #0daca4;
 }
-
+div{
+	background-color: #0daca4;
+}
 .Image {
 	width: 60%;
 	height: 600px
