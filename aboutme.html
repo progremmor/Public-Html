@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="all" href="styles.css">
     <link rel="stylesheet" type="text/css" href="tswnavbar.css" />
-
+    <script src="cookedCat.js"></script>
 </head>
 
 <body style="background: #046ba700">
@@ -27,9 +27,15 @@
         </div>
 
         <div id="tswcontent">
-            <div id="tswcontproper">
+            <div id="tswcontproper" grid>
+                <audio autoplay loop>
+                    <source src="Images/spooktune.mp3" type="audio/mp3">
+                </audio>
                 <!-- start of content column: insert your content here -->
-
+                <img src="Images/Cat.png" id="crazed1" z-index="1000" class="cat">
+                <img src="Images/Cat.png" id="crazed2" z-index="1000" class="cat">
+                <img src="Images/Cat.png" id="crazed3" z-index="1000" class="cat">
+                <script>catNum(3)</script>
                 <h1 style="color: white;text-align: center;width:50%">About Me</h1>
                 <p style="color: white; width:50%">
                     My name is Ryan Zhang and I am a rising junior at Lexington High School.and previously I have taken a variety of programming courses, such as those found in MIT beaver works, using a variety of languages such as Java, C#, C++, Python and Bash. Additionally, I have also taken courses which implement AI using these languages. Additionally, I am also a programmer for my Vex Robotics team(8889a) and I utilize C++ to program motion algorithms which assist with our robot's autonomous routine.
