@@ -87,7 +87,6 @@ div#tswsidecol {
 	position:relative;
 	min-height: 100%;
 	z-index: 5;
-	top:-16px;
 	height:100vh;
 	color: #000;
 	border:0px;	
@@ -125,6 +124,7 @@ div#tswsideproper{
 	overflow:hidden;
 	padding-left: 5px;
 	padding-right: 5px;
+	flex-basis:1;
 }
 div#tswothersideproper {
 	padding-left: 5px;
@@ -142,6 +142,7 @@ div#tswfooter {
 	padding:0.3%;
 	outline:inset;
 	margin:0;
+	z-index:10;
 	margin-left:0;
 	width:100vw;
 	align-self:center;
