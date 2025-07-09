@@ -1,0 +1,59 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+}
+html{
+    background-color: black;
+}
+.header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+}
+
+.cell-holder {
+    display: grid;
+    background-color: lightgray;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    width: 50%;
+    aspect-ratio: 1/1;
+    gap: 8px;
+}
+.cell.blank{
+    background-image: repeating-radial-gradient(circle at 17% 32%, white, black 0.004%);
+    background-blend-mode: difference;
+    animation: a 0.1s infinite alternate;
+}
+.cell {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: gray;
+    font-size: larger;
+    animation: b 2s infinite alternate;
+    overflow-wrap: anywhere;
+}
+
+.cell.selected {
+    border: green groove 5px;
+    background-color: white;
+    background: blue;
+}
+@keyframes a{
+    30% {background-image: repeating-radial-gradient(circle at 17% 32%, white, black 0.04%); translate: 80%,90%};
+    40% {background-image: repeating-radial-gradient(circle at 40% 70%, white, black 0.0023%);translate: 30%,70%};
+    70% {background-image: repeating-radial-gradient(circle at 76% 80%, white, black 0.03%);translate: 10%,0%};
+    80% {background-image: repeating-radial-gradient(circle at 28% 38%, white, black 0.005%);translate: 30%,30%};
+}
+@keyframes b{
+    10% {background-color: black};
+    30% {background-color: lightgray};
+    40% {background-color: gray};
+    80% {background-color: #ff999f};
+    100% {background-color: white};
+}
+
+.no-margin {
+    margin: 0 0;
+}
