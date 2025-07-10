@@ -89,8 +89,7 @@ function can_move(x, y) {
 function cycleNum(){
     cycle=(cycle+1)%3;
     console.log(cycle);
-    setup_game(boards[cycle].cells)
-    document.getElementById("words").innerHTML = "Words to spell: " + boards[cycle].words.join(", ")
+    reset();
 }
 function reset(){
     setup_game(boards[cycle].cells)
@@ -104,10 +103,13 @@ function reset(){
     selected_y=-1;
 }
 function addCellState(i,k){
-    CELLS[i][k].animate(b);
+    if(CELLS[i][k].classList.contains("blank")){
+        return;
+    }
+    CELLS[i][k].classList.add("animated");
 }
 function revokeCellState(i,k){
-    CELLS[i][k].animate(a);
+    CELLS[i][k].classList.remove("animated");
 }
 function randAnim(){
     requestAnimationFrame(randAnim);

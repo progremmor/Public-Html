@@ -44,6 +44,49 @@ output {
 	max-width: 100%;
 }	
 
+.picGrid{
+	display:grid;
+	z-index: 3;
+	grid-template-columns: repeat(3,1fr);
+	background-color: black;
+	grid-template-rows:repeat(3,1fr);
+	width:50%;
+	float: center;
+	align-self:center;
+	aspect-ratio: 1/1;
+	gap:0.001%;
+	
+}
+.catCell{
+	display:flex;
+	border: black solid;
+	justify-content:center;
+	align-items: center;
+	background-color: #055a4c; /* Match page background to create border effect */
+}
+.catCell.selected{
+	position: relative;
+	z-index: 3; /* Ensure it's on top of the pseudo-element */
+}
+.catCell:hover::before,
+.catCell.selected::before {
+    content: '';
+    position: absolute;
+    top: -4px;
+    left: -4px;
+    width: calc(100% + 8px);
+    height: calc(100% + 8px);
+    background: linear-gradient(60deg, #f79533, #f37055, #ef4e7b, #a166ab, #5073b8, #1098ad, #07b39b, #6fba82);
+    background-size: 300% 300%;
+    z-index: 4;
+    animation: animated-border 4s linear infinite;
+}
+
+@keyframes animated-border {
+	0% { background-position: 0% 50%; }
+	50% { background-position: 100% 50%; }
+	100% { background-position: 0% 50%; }
+}
 
 div#tswheader {
 	display:flex;
@@ -52,7 +95,7 @@ div#tswheader {
 	flex:1;
 	height:50%;
 	overflow:hidden;
-	z-index:8;
+	z-index:5;
 	background-color: #0daca4;
 }
 .cat{
@@ -85,9 +128,9 @@ div#tswsidecol {
 	padding-top : 10px;
 	width: 18%;
 	position:relative;
-	min-height: 100%;
-	z-index: 5;
-	height:100vh;
+	min-height: 100vh;
+	z-index: 3;
+	height:100%;
 	color: #000;
 	border:0px;	
 	background-color: #055a4c;
@@ -114,7 +157,7 @@ div#tswsideproper{
 	width: 100%;
 	position:relative;
 	min-height: 100%;
-	z-index: 5;
+	z-index: 4;
 	top:-16px;
 	height:100vh;
 	color: #000;
@@ -142,7 +185,7 @@ div#tswfooter {
 	padding:0.3%;
 	outline:inset;
 	margin:0;
-	z-index:10;
+	z-index:5;
 	margin-left:0;
 	width:100vw;
 	align-self:center;

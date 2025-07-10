@@ -6,8 +6,9 @@
 */
 
 #tswcssbuttons {
-	width: 180px ;
+	width: 80% ;
 	max-width: 100% ;
+	align-self: center;
 	text-align: center ;
 }
 #tswcssbuttons ul {

@@ -10,6 +10,7 @@
     <link rel="stylesheet" type="text/css" media="all" href="styles.css">
     <link rel="stylesheet" type="text/css" href="tswnavbar.css" />
     <script src="cookedCat.js"></script>
+    <script src="CatGridGame.js" defer></script>
 </head>
 
 <style>
@@ -17,6 +18,7 @@
 </style>
 
 <body style="background: #ffffff00">
+
     <div id="tswcontainer">
         <div id="tswheader">
             <!-- start of header section: insert your logo, etc, here -->
@@ -28,21 +30,33 @@
 
             <!-- end of header section: insert your logo, etc, above this line -->
         </div>
-
         <div id="tswcontent">
+
             <div id="tswcontproper">
                 <!-- start of content column: insert your content here -->
                 <img src="Images/Cat.png" id="crazed1" z-index="1000" class="cat">
                 <img src="Images/Cat.png" id="crazed2" z-index="1000" class="cat">
                 <img src="Images/Cat.png" id="crazed3" z-index="1000" class="cat">
                 <script>catNum(3)</script>
+
                 <audio autoplay loop>
                     <source src="Images/spooktune.mp3" type="audio/mp3">
                 </audio>
                 <h1 style="color:white">Projects</h1>
+                <div id="catGrid" class="picGrid">
+                    <div class="catCell" ></div>
+                    <div class="catCell"></div>
+                    <div class="catCell"></div>
+                    <div class="catCell"></div>
+                    <div class="catCell"></div>
+                    <div class="catCell"></div>
+                    <div class="catCell"></div>
+                    <div class="catCell"></div>
+                    <div class="catCell"></div>
+                </div>
 
                 <image>
-                    <source src="Images/WallCat.png" z-index="1000">
+                    <source src="Images/WallCat.png" type="image/png">
                 </image>
                 
                 <p>&nbsp;</p>
