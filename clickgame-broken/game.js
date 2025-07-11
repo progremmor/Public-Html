@@ -2,10 +2,9 @@ const widget_container = document.getElementById("widget-container");
 const stores = document.getElementsByClassName("store");
 const score_element = document.getElementById("score");
 const SPS_element = document.getElementById("SPS");
-const world=document.getElementById("worldBuns");
 let music = document.getElementById("bunnyBoss");
 let BunnyWrinkler=document.getElementById("Bunny");
-let score = 5;
+let score = 500;
 let prevScore=0;
 let prevSPS=0;
 let super_gompei_count = 0;
@@ -21,40 +20,64 @@ let bunCooldown=0;
 let clickDmg=1;
 
 function spawnLeBunny(){
-    const Bun=BunnyWrinkler.cloneNode(true);
+    const Bun=BunnyWrinkler.firstElementChild.cloneNode(true);
     Bun.style.visibility="visible";
-    Bun.style.top=Math.random()*(window.innerHeight-BunnyWrinkler.offsetHeight)+"px";
-    Bun.style.left=Math.random()*(window.innerWidth-BunnyWrinkler.offsetWidth)+"px";
     bunHp=Math.random()*(score-(50+score/2))+50+score/2
     Bun.style="--Hp: "+bunHp;
+    Bun.setAttribute("eating","");
     Bun.style.zIndex=100;
-    world.appendChild(Bun);
-    Bun.setAttribute("eating");
+    Bun.onclick= () => {
+        bunGettingCooked(Bun);
+    }
     BunnyEats(Bun);
+    Bun.style.position="absolute";
+    document.body.appendChild(Bun);
+    Bun.classList.add("bunny");
+    Bun.style="--y: "+Math.random()*(window.innerHeight-BunnyWrinkler.offsetHeight)+"px";
+    Bun.style="--x: "+Math.random()*(window.innerWidth-BunnyWrinkler.offsetWidth)+"px";
+    Bun.left=getComputedStyle(Bun).getPropertyValue("--x");
+    Bun.top=getComputedStyle(Bun).getPropertyValue("--y");
+
+    console.log(Bun.classList);
+
+}
+function eatTimer(bun,time){
+    setTimeout(() => {
+        // Remove the harvesting flag
+        bun.removeAttribute("eating");
+        // If automatic, start again
+        BunnyEats(bun);
+    }, time);
 }
 function BunnyEats(bun){
-    if(getComputedStyle(bun).getPropertyValue("--Hp")>0){
+    console.log(getComputedStyle(bun).getPropertyValue("--storedScore"));
+    bun.setAttribute("eating", "");
+    if(getComputedStyle(bun).getPropertyValue("--Hp")>0&&!bun.hasAttribute("eating")){
         score-=getComputedStyle(bun).getPropertyValue("--Hp");
         bunScoreStored+=getComputedStyle(bun).getPropertyValue("--Hp")
-        bun.style="--storedScore: "+bunScoreStored;
+        bun.bunny.style="--storedScore: "+bunScoreStored;
         bunGettingCooked(bun);
         changeScore(score, true);
-        setTimeout(BunnyEats,Math.random()*(1200-600)+600,bun)
     }else{
-        changeScore(getComputedStyle(bun).getPropertyValue("--Hp"))
-        world.removeChild(bun);
+        if(!bun.hasAttribute("eating")){
+            bun.removeAttribute("eating");
+            changeScore(getComputedStyle(bun).getPropertyValue("--storedScore"))
+            setTimeout(function(){document.body.remove(bun);},1000);
+        }else{
+            return;
+        }
     }
+    eatTimer(bun,Math.random()*(1200-600)+600);
 }
 function bunSpawnTimer(){
-    if(curBunAmt+1<=bunLim&&Math.random()*(20-1)+1>3+curBunAmt&&score>200){
-        console.log("bun")
+    if(curBunAmt+1<=bunLim&&Math.random()*(20+bunLim-1)+1>3+curBunAmt&&score>200){
         if(!bunSpawned){
-            //music.autoplay=true;
+            music.autoplay=true;
             alert("The Bunny Has Spawned");
             bunSpawned=true;
         }
         spawnLeBunny();
-        curBunAmt++;
+        ++curBunAmt;
     }
     if(score>1000){
         bunLim+=Math.round((score-1000)/2)
@@ -62,11 +85,15 @@ function bunSpawnTimer(){
     setTimeout(bunSpawnTimer,1000);
 }
 function bunGettingCooked(bun){
-    onclick=()=>{
-        bunHp=
-        bun.style="--Hp: "+bunHp;
+    prevSPS>0&prevSPS>clickDmg ? clickDmg=prevSPS : clickDmg=clickDmg;
+    bunHp=getComputedStyle(bun).getPropertyValue("--Hp")-clickDmg;
+    dmgTickPoint(bun,clickDmg);
+    bun.style="--Hp: "+bunHp;
+    if(bunHp<=0){
+        bun.remove();
     }
 }
+
 function changeScore(amount,subtract=false) {
     if(!subtract){
         score += amount*multiplier;
@@ -85,6 +112,7 @@ function changeScore(amount,subtract=false) {
     }
 }
 function SPSCalc(){
+    console.log(clickDmg);
     SPS_element.innerHTML= prevSPS+score-prevScore+" Score/Second";
     prevSPS=score-prevScore;
     prevScore=score;
@@ -157,6 +185,16 @@ function showPoint(widget) {
     }
     widget.appendChild(number);
 }
+function dmgTickPoint(enemy, hit){
+    let dmg=document.createElement("span");
+    dmg.className="dmgPoint";
+    dmg.innerHTML= "-"+hit;
+    dmg.onanimationend=()=>{
+        enemy.removeChild(dmg);
+    }
+    enemy.appendChild(dmg);
+}
+
 SPSCalc();
 bunSpawnTimer();
 changeScore(0);

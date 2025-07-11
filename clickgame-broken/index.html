@@ -11,7 +11,8 @@
 </head>
 
 <body>
-    <div id="worldBuns"></div>
+    <div id="worldBuns" position="absolute"></div>
+
     <h1 class="center">Gompei's Grass Game</h1>
     <h2 class="center" id="score">Score: 0</h2>
     <h3 class="left" id="SPS"> Score/second</h3>
@@ -55,6 +56,18 @@
             <p>+100 sqft</p>
             <p>5.0s</p>
         </div>
+        <div class="store" name="Rabbit" cost="50" reap="2" cooldown="0.1" auto="true" src="./rabbit.png"
+            onclick="buy(event.currentTarget)">
+            <div class="widget" reap="2" cooldown="0.1" auto="true" name="Rabbit">
+                <img src="./rabbit.png">
+                <div class="overlay-slide" style="animation-duration: 0.1s;"></div>
+            </div>
+            <p>Lawn Mower</p>
+            <p>50 points</p>
+            <p>+2 sqft</p>
+            <p>???</p>
+        </div>
+
     </div>
     <div id="widget-container"></div>
 
