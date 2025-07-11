@@ -3,6 +3,7 @@ const stores = document.getElementsByClassName("store");
 const score_element = document.getElementById("score");
 const SPS_element = document.getElementById("SPS");
 const world=document.getElementById("worldBuns");
+let music = document.getElementById("bunnyBoss");
 let BunnyWrinkler=document.getElementById("Bunny");
 let score = 5;
 let prevScore=0;
@@ -11,7 +12,6 @@ let super_gompei_count = 0;
 let multiplier=1;
 
 let bunSpawned=false;
-let bunBunHp =0;
 let bunLim=1;
 let curBunAmt=0;
 let bunHp=0;
@@ -21,22 +21,36 @@ let bunCooldown=0;
 let clickDmg=1;
 
 function spawnLeBunny(){
-    BunnyWrinkler.style.visibility="visible";
-    BunnyWrinkler.style.top=Math.random()*(window.innerHeight-BunnyWrinkler.offsetHeight)+"px";
-    BunnyWrinkler.style.left=Math.random()*(window.innerWidth-BunnyWrinkler.offsetWidth)+"px";
     const Bun=BunnyWrinkler.cloneNode(true);
+    Bun.style.visibility="visible";
+    Bun.style.top=Math.random()*(window.innerHeight-BunnyWrinkler.offsetHeight)+"px";
+    Bun.style.left=Math.random()*(window.innerWidth-BunnyWrinkler.offsetWidth)+"px";
+    bunHp=Math.random()*(score-(50+score/2))+50+score/2
+    Bun.style="--Hp: "+bunHp;
+    Bun.style.zIndex=100;
     world.appendChild(Bun);
     Bun.setAttribute("eating");
+    BunnyEats(Bun);
 }
-function BunnyEats(){
-
+function BunnyEats(bun){
+    if(getComputedStyle(bun).getPropertyValue("--Hp")>0){
+        score-=getComputedStyle(bun).getPropertyValue("--Hp");
+        bunScoreStored+=getComputedStyle(bun).getPropertyValue("--Hp")
+        bun.style="--storedScore: "+bunScoreStored;
+        bunGettingCooked(bun);
+        changeScore(score, true);
+        setTimeout(BunnyEats,Math.random()*(1200-600)+600,bun)
+    }else{
+        changeScore(getComputedStyle(bun).getPropertyValue("--Hp"))
+        world.removeChild(bun);
+    }
 }
 function bunSpawnTimer(){
     if(curBunAmt+1<=bunLim&&Math.random()*(20-1)+1>3+curBunAmt&&score>200){
         console.log("bun")
         if(!bunSpawned){
+            //music.autoplay=true;
             alert("The Bunny Has Spawned");
-            
             bunSpawned=true;
         }
         spawnLeBunny();
@@ -47,8 +61,11 @@ function bunSpawnTimer(){
     }
     setTimeout(bunSpawnTimer,1000);
 }
-function bunGettingCooked(){
-
+function bunGettingCooked(bun){
+    onclick=()=>{
+        bunHp=
+        bun.style="--Hp: "+bunHp;
+    }
 }
 function changeScore(amount,subtract=false) {
     if(!subtract){
@@ -97,6 +114,7 @@ function buy(store) {
     widget.onclick = () => {
         harvest(widget);
     }
+    widget.style.zIndex=0;
     widget_container.appendChild(widget);
 
     if (widget.getAttribute("auto") == 'true') {

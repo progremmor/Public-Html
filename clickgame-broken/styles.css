@@ -33,6 +33,7 @@ body {
 
 .store {
     background-color: aqua;
+    z-index: 1;
     text-align: center;
     cursor: pointer;
     color: black;
@@ -54,7 +55,7 @@ body {
     margin: 5px;
 
     cursor: pointer;
-
+    z-index:0;
     overflow: hidden;
     color: white;
     position: relative;
@@ -126,6 +127,7 @@ body {
     position: absolute;
     animation: bunnyRotate 0.2s linear infinite;
     --storedScore: 0;
+    --Hp: 0;
 }
 @keyframes bunnyRotate{
     0% {rotate: 15deg;}
