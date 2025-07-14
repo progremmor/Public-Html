@@ -11,19 +11,18 @@
 </head>
 
 <body>
-    <div id="worldBuns" position="absolute"></div>
 
     <h1 class="center">Gompei's Grass Game</h1>
     <h2 class="center" id="score">Score: 0</h2>
     <h3 class="left" id="SPS"> Score/second</h3>
 
     <audio id="bunnyBoss">
-        <source src="./BossFight.mp3" type="audio/mp3">
+        <source src="./BossFight.mp3">
     </audio>
     <div class="bunny" id="Bunny" z-index="10">
         <img src="./bunny.png">
     </div>
-    <div id="store-container">
+    <div id="store-container" position="absolute">
         <div class="store" name="Lawn" cost="5" onclick="buy(event.currentTarget)">
             <div class="widget" reap="2" cooldown="0.5" auto="false" name="Lawn">
                 <p>Lawn</p>

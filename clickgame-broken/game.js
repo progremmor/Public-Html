@@ -4,7 +4,7 @@ const score_element = document.getElementById("score");
 const SPS_element = document.getElementById("SPS");
 let music = document.getElementById("bunnyBoss");
 let BunnyWrinkler=document.getElementById("Bunny");
-let score = 500;
+let score = 5;
 let prevScore=0;
 let prevSPS=0;
 let super_gompei_count = 0;
@@ -20,25 +20,24 @@ let bunCooldown=0;
 let clickDmg=1;
 
 function spawnLeBunny(){
-    const Bun=BunnyWrinkler.firstElementChild.cloneNode(true);
-    Bun.style.visibility="visible";
+    const Buny=BunnyWrinkler.firstElementChild.cloneNode(true);
+    let Bun=document.createElement("div");
+    Bun.appendChild(Buny);
+    Bun.classList.add("bunny");
+    Bun.style.visibility="visible"; 
     bunHp=Math.random()*(score-(50+score/2))+50+score/2
-    Bun.style="--Hp: "+bunHp;
+    Bun.setAttribute("Hp",Math.round(bunHp));
+    Bun.setAttribute("storedScore",Math.round(Math.random()*(score-0)));
     Bun.setAttribute("eating","");
     Bun.style.zIndex=100;
-    Bun.onclick= () => {
+    Buny.onclick= () => {
         bunGettingCooked(Bun);
     }
-    BunnyEats(Bun);
-    Bun.style.position="absolute";
+    Buny.style.position="absolute";
     document.body.appendChild(Bun);
-    Bun.classList.add("bunny");
-    Bun.style="--y: "+Math.random()*(window.innerHeight-BunnyWrinkler.offsetHeight)+"px";
-    Bun.style="--x: "+Math.random()*(window.innerWidth-BunnyWrinkler.offsetWidth)+"px";
-    Bun.left=getComputedStyle(Bun).getPropertyValue("--x");
-    Bun.top=getComputedStyle(Bun).getPropertyValue("--y");
-
-    console.log(Bun.classList);
+    Buny.style.top=Math.random()*(window.innerHeight-BunnyWrinkler.offsetHeight)+"px";
+    Buny.style.left=Math.random()*(window.innerWidth-BunnyWrinkler.offsetWidth)+"px";
+    BunnyEats(Bun,bunHp,bunScoreStored);
 
 }
 function eatTimer(bun,time){
@@ -50,29 +49,24 @@ function eatTimer(bun,time){
     }, time);
 }
 function BunnyEats(bun){
-    console.log(getComputedStyle(bun).getPropertyValue("--storedScore"));
+    let scoreStored=Number(bun.getAttribute("storedScore"));
     bun.setAttribute("eating", "");
-    if(getComputedStyle(bun).getPropertyValue("--Hp")>0&&!bun.hasAttribute("eating")){
-        score-=getComputedStyle(bun).getPropertyValue("--Hp");
-        bunScoreStored+=getComputedStyle(bun).getPropertyValue("--Hp")
-        bun.bunny.style="--storedScore: "+bunScoreStored;
-        bunGettingCooked(bun);
+    if(bun.hasAttribute("eating")){
+        console.log(scoreStored);
+        score-=Math.round(bun.getAttribute("Hp")/3);
+        scoreStored=Math.round(Number(bun.getAttribute("Hp"))/3)+scoreStored;
         changeScore(score, true);
+        bun.setAttribute("storedScore",scoreStored);
     }else{
-        if(!bun.hasAttribute("eating")){
-            bun.removeAttribute("eating");
-            changeScore(getComputedStyle(bun).getPropertyValue("--storedScore"))
-            setTimeout(function(){document.body.remove(bun);},1000);
-        }else{
-            return;
-        }
+        return;
     }
     eatTimer(bun,Math.random()*(1200-600)+600);
 }
 function bunSpawnTimer(){
     if(curBunAmt+1<=bunLim&&Math.random()*(20+bunLim-1)+1>3+curBunAmt&&score>200){
         if(!bunSpawned){
-            music.autoplay=true;
+            music.play();
+            music.volume=1;
             alert("The Bunny Has Spawned");
             bunSpawned=true;
         }
@@ -86,10 +80,12 @@ function bunSpawnTimer(){
 }
 function bunGettingCooked(bun){
     prevSPS>0&prevSPS>clickDmg ? clickDmg=prevSPS : clickDmg=clickDmg;
-    bunHp=getComputedStyle(bun).getPropertyValue("--Hp")-clickDmg;
+    let hp=bun.getAttribute("Hp");
+    hp-=clickDmg;
     dmgTickPoint(bun,clickDmg);
-    bun.style="--Hp: "+bunHp;
-    if(bunHp<=0){
+    bun.setAttribute("Hp",hp);
+    if(hp<=0){
+        changeScore(Number(bun.getAttribute("storedScore")));
         bun.remove();
     }
 }
@@ -112,7 +108,6 @@ function changeScore(amount,subtract=false) {
     }
 }
 function SPSCalc(){
-    console.log(clickDmg);
     SPS_element.innerHTML= prevSPS+score-prevScore+" Score/Second";
     prevSPS=score-prevScore;
     prevScore=score;
