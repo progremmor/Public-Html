@@ -15,6 +15,7 @@
     <h1 class="center">Gompei's Grass Game</h1>
     <h2 class="center" id="score">Score: 0</h2>
     <h3 class="left" id="SPS"> Score/second</h3>
+    <h4 class="right" id="damage"> damage/click</h4>
 
     <audio id="bunnyBoss">
         <source src="./BossFight.mp3">
@@ -64,9 +65,19 @@
             <p>Lawn Mower</p>
             <p>50 points</p>
             <p>+2 sqft</p>
-            <p>???</p>
+            <p>0.1</p>
         </div>
+        <div class="store" negative name="Negative Bun" cost="-1000000000000000" reap = "0" multiplier="3" auto="true" src="./Negative Bunny.jpg"
+        onclick="buy(event.currentTarget)">
+            <div class="widget" reap="0" multiplier="3" cooldown="0" auto="true" name="Negative">
+                <img src="./Negative Bunny.jpg">
+            </div>
+            <p>Negative Lawn Mower</p>
+            <p>-1,000,000,000,000,000</p>
+            <p>x3 Score/Second</p>
+            <p>0</p>
 
+        </div>
     </div>
     <div id="widget-container"></div>
 

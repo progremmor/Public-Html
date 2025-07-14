@@ -2,13 +2,15 @@ const widget_container = document.getElementById("widget-container");
 const stores = document.getElementsByClassName("store");
 const score_element = document.getElementById("score");
 const SPS_element = document.getElementById("SPS");
+const dmg=document.getElementById("damage");
 let music = document.getElementById("bunnyBoss");
 let BunnyWrinkler=document.getElementById("Bunny");
-let score = 5;
+let score = 50;
 let prevScore=0;
 let prevSPS=0;
 let super_gompei_count = 0;
 let multiplier=1;
+let negativeCount=0;
 
 let bunSpawned=false;
 let bunLim=1;
@@ -20,10 +22,9 @@ let bunCooldown=0;
 let clickDmg=1;
 
 function spawnLeBunny(){
-    const Buny=BunnyWrinkler.firstElementChild.cloneNode(true);
+    const Buny=BunnyWrinkler.cloneNode(true);
     let Bun=document.createElement("div");
     Bun.appendChild(Buny);
-    Bun.classList.add("bunny");
     Bun.style.visibility="visible"; 
     bunHp=Math.random()*(score-(50+score/2))+50+score/2
     Bun.setAttribute("Hp",Math.round(bunHp));
@@ -35,8 +36,10 @@ function spawnLeBunny(){
     }
     Buny.style.position="absolute";
     document.body.appendChild(Bun);
-    Buny.style.top=Math.random()*(window.innerHeight-BunnyWrinkler.offsetHeight)+"px";
-    Buny.style.left=Math.random()*(window.innerWidth-BunnyWrinkler.offsetWidth)+"px";
+    let x=Math.random()*(window.innerHeight-BunnyWrinkler.offsetHeight)+"px";
+    let y=Math.random()*(window.innerWidth-BunnyWrinkler.offsetWidth)+"px";
+    Bun.setAttribute("x",x);
+    Bun.setAttribute("y",y);
     BunnyEats(Bun,bunHp,bunScoreStored);
 
 }
@@ -50,11 +53,13 @@ function eatTimer(bun,time){
 }
 function BunnyEats(bun){
     let scoreStored=Number(bun.getAttribute("storedScore"));
+    bun.style.top=Number(bun.getAttribute("y"));
+    bun.style.left=Number(bun.getAttribute("x"));
     bun.setAttribute("eating", "");
     if(bun.hasAttribute("eating")){
         console.log(scoreStored);
-        score-=Math.round(bun.getAttribute("Hp")/3);
-        scoreStored=Math.round(Number(bun.getAttribute("Hp"))/3)+scoreStored;
+        score-=Math.round(bun.getAttribute("Hp"));
+        scoreStored=Math.round(Number(bun.getAttribute("Hp")))+scoreStored;
         changeScore(score, true);
         bun.setAttribute("storedScore",scoreStored);
     }else{
@@ -63,7 +68,7 @@ function BunnyEats(bun){
     eatTimer(bun,Math.random()*(1200-600)+600);
 }
 function bunSpawnTimer(){
-    if(curBunAmt+1<=bunLim&&Math.random()*(20+bunLim-1)+1>3+curBunAmt&&score>200){
+    if(curBunAmt+1<=bunLim&&Math.random()*(20+bunLim-1)+1>3+curBunAmt&&score>800){
         if(!bunSpawned){
             music.play();
             music.volume=1;
@@ -73,13 +78,12 @@ function bunSpawnTimer(){
         spawnLeBunny();
         ++curBunAmt;
     }
-    if(score>1000){
-        bunLim+=Math.round((score-1000)/2)
+    if(score>7000){
+        bunLim+=Math.round((score-7000)/2)
     }
     setTimeout(bunSpawnTimer,1000);
 }
 function bunGettingCooked(bun){
-    prevSPS>0&prevSPS>clickDmg ? clickDmg=prevSPS : clickDmg=clickDmg;
     let hp=bun.getAttribute("Hp");
     hp-=clickDmg;
     dmgTickPoint(bun,clickDmg);
@@ -91,8 +95,13 @@ function bunGettingCooked(bun){
 }
 
 function changeScore(amount,subtract=false) {
-    if(!subtract){
+    if(negativeCount>0){
+        multiplier=negativeCount*3;
+    }
+    if(!subtract&&amount>0){
         score += amount*multiplier;
+    }else if(!subtract){
+        score+=amount;
     }
     //set score element
     score_element.innerHTML = "Score: " + score;
@@ -105,17 +114,27 @@ function changeScore(amount,subtract=false) {
         } else {
             store.removeAttribute("broke");
         }
+        if(store.hasAttribute("negative")){
+            if(score>cost){
+                store.setAttribute("broke","")
+            }else{
+                store.removeAttribute("broke");
+            }
+        }
     }
 }
 function SPSCalc(){
     SPS_element.innerHTML= prevSPS+score-prevScore+" Score/Second";
+    console.log(multiplier);
+    prevSPS>0&prevSPS>clickDmg ? clickDmg=prevSPS : clickDmg=clickDmg;
+    dmg.innerHTML=clickDmg+" Damage/Click"
     prevSPS=score-prevScore;
     prevScore=score;
     setTimeout(SPSCalc,1000);
 }
 function buy(store) {
     const cost = parseInt(store.getAttribute("cost"));
-    if(score<cost){
+    if(store.hasAttribute("broke")){
         return;
     }
     // check available to buy
@@ -131,6 +150,9 @@ function buy(store) {
             super_gompei.setAttribute("reap", (parseInt(super_gompei.getAttribute("reap")) + 100));
             return;
         }
+    }
+    if(store.getAttribute("name")==="Negative Bun"){
+        ++negativeCount;
     }
     // clone node for widget, and add to container
     const widget = store.firstElementChild.cloneNode(true);
@@ -165,7 +187,9 @@ function harvest(widget) {
 
     // If manual, collect points now
     changeScore(parseInt(widget.getAttribute("reap")));
-    showPoint(widget);
+    if(Number(widget.getAttribute("cooldown")>0)){
+        showPoint(widget);
+    }
 
     setup_end_harvest(widget);
 }
