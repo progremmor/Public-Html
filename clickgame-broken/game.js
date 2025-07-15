@@ -68,7 +68,7 @@ function BunnyEats(bun){
     eatTimer(bun,Math.random()*(1200-600)+600);
 }
 function bunSpawnTimer(){
-    if(curBunAmt+1<=bunLim&&Math.random()*(20+bunLim-1)+1>3+curBunAmt&&score>800){
+    if(curBunAmt+1<=bunLim&&Math.random()*(20+bunLim-1)+1>1+curBunAmt&&score>800){
         if(!bunSpawned){
             music.play();
             music.volume=1;
@@ -81,7 +81,7 @@ function bunSpawnTimer(){
     if(score>7000){
         bunLim+=Math.round((score-7000)/2)
     }
-    setTimeout(bunSpawnTimer,1000);
+    setTimeout(bunSpawnTimer,18000);
 }
 function bunGettingCooked(bun){
     let hp=bun.getAttribute("Hp");
@@ -96,7 +96,7 @@ function bunGettingCooked(bun){
 
 function changeScore(amount,subtract=false) {
     if(negativeCount>0){
-        multiplier=negativeCount*3;
+        multiplier=Math.pow(negativeCount,3);
     }
     if(!subtract&&amount>0){
         score += amount*multiplier;
