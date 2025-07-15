@@ -6,7 +6,7 @@ const PADDLE_WiDTH = 25;
 const PADDLE_HEIGHT = 100;
 const BALL_RADIUS = 6.25;
 const PADDLE_VELOCITY = 5;
-const PADDLE_FORCE = 1.1; // 110% of speed before
+const PADDLE_FORCE = 1; // 110% of speed before
 
 class Model {
     ball;
@@ -32,7 +32,7 @@ class Model {
         clearTimeout(this.intervalID);
         this.resetBall();
         this.paddleL = new Paddle(0, BOARD_HEIGHT/2, PADDLE_WiDTH, PADDLE_HEIGHT, SIDE.LEFT, "white");
-        this.paddleR = new Paddle(BOARD_WIDTH - PADDLE_WiDTH, BOARD_HEIGHT/2, PADDLE_WiDTH+this.scoreL, PADDLE_HEIGHT, SIDE.RIGHT, "white");
+        this.paddleR = new Paddle(BOARD_WIDTH - PADDLE_WiDTH, BOARD_HEIGHT/2, PADDLE_WiDTH+this.scoreL, PADDLE_HEIGHT, SIDE.RIGHT, "lightgray");
     }
 
     resetBall() {

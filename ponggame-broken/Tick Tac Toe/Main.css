@@ -1,0 +1,21 @@
+#catGrid{
+    display: grid;
+    align-self:center;
+
+    grid-template-columns: repeat(3, 1fr);
+    aspect-ratio: 1/1;
+    width:75vh;
+}
+.catCell{
+    display:flex;
+    justify-content: center;
+    align-items:center;
+    border-width:4px;
+    border-color:black;
+    border-style:dashed;
+}
+body{
+    height: 100vh;
+    justify-content: center;
+    align-items:center;
+}

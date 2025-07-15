@@ -18,7 +18,8 @@ class Ball {
     move() {
         this.posx += this.velx;
         this.posy += this.vely;
-
+        this.posx=Math.max(0,Math.min(BOARD_WIDTH,this.posx));
+        this.posy=Math.max(0,Math.min(BOARD_HEIGHT,this.posy));
     }
 
     bounce(things) {

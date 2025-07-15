@@ -34,19 +34,11 @@ class Paddle {
             // don't set this.y! (cheating)
             //let error=ball.y-this.y;
             let desired = ball.posy - this.height/2;
-            let desiredX=ball.posx+this.width;
+            let desiredX=ball.posx+BALL_RADIUS;
             let errorX=desiredX-this.posx;
             let error=desired-this.posy;
-            if(ball.posx>250){
-                if(this.posx>ball.posx+BALL_RADIUS&&Math.abs(errorX)<100){
-                    this.velx=0;
-                        //this.posx+=BALL_RADIUS*ball.velx;
-                }else{
-                    this.velx=Math.min(PADDLE_VELOCITY,Math.max(-PADDLE_VELOCITY,errorX*0.05));
-                }
-            }else{
-                this.velx=0;
-            }
+            let touchedSide=true;
+            console.log(ball.velx)
 
             if(is_hard){
                 if(this.posx>ball.posx+BALL_RADIUS&&Math.abs(errorX)<20){
@@ -54,7 +46,7 @@ class Paddle {
                     if(this.posx>ball.posx+BALL_RADIUS){
                         this.velx=Math.min(PADDLE_VELOCITY,-3+Math.max(-PADDLE_VELOCITY,Math.abs(Math.sign(errorX*ball.velx))));
                     }
-                    if(this.posx>BOARD_HEIGHT-this.width*2){
+                    if(this.posx>BOARD_WIDTH-this.width*2){
                         this.velx=0;
                         this.vely*=0;
                     }  
@@ -64,16 +56,37 @@ class Paddle {
                 }
                 this.vely=Math.min(PADDLE_VELOCITY,Math.max(-PADDLE_VELOCITY,error));
             }else{
-                if(error<5){
+                if(this.posx>BOARD_WIDTH-this.width*2){
+                    touchedSide=true;
+                }
+                if(ball.posx>=200){
+                    if(this.posx>BOARD_WIDTH-this.width*2&&Math.abs(errorX)<10&&touchedSide){
+                        this.velx=-20;
+                        touchedSide=false;
+                    } else{
+                        this.velx=Math.min(PADDLE_VELOCITY,Math.max(-PADDLE_VELOCITY,errorX*0.5));
+                    }
+                }else{
+                    this.velx=-5;
+                    this.posx+=this.velx;
+                    this.velx=Math.min(PADDLE_VELOCITY,Math.max(-PADDLE_VELOCITY,(BOARD_WIDTH-this.posx+this.width))*0.1)
+                }
+                if(Math.abs(error)<2){
                     this.vely=Math.min(PADDLE_VELOCITY,Math.max(-PADDLE_VELOCITY,error));          
                 }else{
-                    this.velx=0;
-                    this.vely=Math.sign(error)*0.8;
+                    this.vely=Math.sign(error)*2.5;
+                }
+            }
+            if(Math.abs(ball.velx)<=0.5){
+                this.velx=2;
+                if(!is_hard){
+                    this.vely*=0.7;
                 }
             }
         };
         this.posy = Math.min(BOARD_HEIGHT - this.height, Math.max(0, this.posy + this.vely));
         this.posx = Math.min(BOARD_WIDTH - this.width, Math.max(0, this.posx + this.velx));
+
     }
 
     bounce(ball) {
@@ -89,8 +102,7 @@ class Paddle {
             (ball.posx-BALL_RADIUS<= this.posx+this.width && ball.posx + BALL_RADIUS >= this.posx)// ball going into wall
         ) {
             ball.velx = Math.min(30,Math.max(this.velx+bounce_dir * PADDLE_FORCE * Math.abs(ball.velx)));
-            ball.vely = Math.min(2,Math.max(2,ball.vely+this.vely*0.003))
-
+            ball.vely = Math.min(4,Math.max(-4,ball.vely+this.vely*0.3))
             return SIDE.NONE;
         }
 
