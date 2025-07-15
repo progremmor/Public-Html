@@ -33,7 +33,6 @@ class Paddle {
             // control this.vy using ball
             // don't set this.y! (cheating)
             //let error=ball.y-this.y;
-            this.height=100;
             let desired = ball.posy - this.height/2;
             let desiredX=ball.posx+this.width;
             let errorX=desiredX-this.posx;
@@ -50,24 +49,28 @@ class Paddle {
             }
 
             if(is_hard){
-                if(this.posx>ball.posx+BALL_RADIUS&&Math.abs(errorX)<100){
+                if(this.posx>ball.posx+BALL_RADIUS&&Math.abs(errorX)<20){
                     this.velx=Math.min(PADDLE_VELOCITY,Math.max(-PADDLE_VELOCITY,Math.abs(Math.sign(errorX)*ball.velx*0.003)));
                     if(this.posx>ball.posx+BALL_RADIUS){
-                        this.velx=Math.min(PADDLE_VELOCITY,Math.max(-PADDLE_VELOCITY,Math.abs(Math.sign(errorX*ball.velx)-3)));
+                        this.velx=Math.min(PADDLE_VELOCITY,-3+Math.max(-PADDLE_VELOCITY,Math.abs(Math.sign(errorX*ball.velx))));
                     }
-                }else{
+                    if(this.posx>BOARD_HEIGHT-this.width*2){
+                        this.velx=0;
+                        this.vely*=0;
+                    }  
+                }
+                else{
                     this.velx=Math.min(PADDLE_VELOCITY,Math.max(-PADDLE_VELOCITY,errorX));
                 }
                 this.vely=Math.min(PADDLE_VELOCITY,Math.max(-PADDLE_VELOCITY,error));
             }else{
-                if(error>10){
+                if(error<5){
                     this.vely=Math.min(PADDLE_VELOCITY,Math.max(-PADDLE_VELOCITY,error));          
                 }else{
                     this.velx=0;
-                    this.vely=this.vely=Math.min(PADDLE_VELOCITY,Math.max(-PADDLE_VELOCITY,error*0.06));
+                    this.vely=Math.sign(error)*0.8;
                 }
             }
-
         };
         this.posy = Math.min(BOARD_HEIGHT - this.height, Math.max(0, this.posy + this.vely));
         this.posx = Math.min(BOARD_WIDTH - this.width, Math.max(0, this.posx + this.velx));

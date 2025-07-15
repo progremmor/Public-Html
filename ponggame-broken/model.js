@@ -3,7 +3,7 @@ const STATE = { STARTUP: 0, PLAYING: 1, GAMEOVER: 2 };
 const BOARD_WIDTH = 500;
 const BOARD_HEIGHT = 500;
 const PADDLE_WiDTH = 25;
-const PADDLE_HEIGHT = 50;
+const PADDLE_HEIGHT = 100;
 const BALL_RADIUS = 6.25;
 const PADDLE_VELOCITY = 5;
 const PADDLE_FORCE = 1.1; // 110% of speed before
@@ -37,7 +37,7 @@ class Model {
 
     resetBall() {
         this.ballDir=1+(Math.round(Math.random())*-2);
-        this.ball = new Ball(BOARD_WIDTH / 2, BOARD_HEIGHT / 2,1+(Math.round(Math.random())*-2), 1+(Math.round(Math.random())*-2));
+        this.ball = new Ball(BOARD_WIDTH / 2, BOARD_HEIGHT / 2,1+(Math.round(Math.random())*-2), Math.random()*2-1);
     }
 
 }
