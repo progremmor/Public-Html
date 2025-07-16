@@ -35,7 +35,7 @@ class Paddle {
             //let error=ball.y-this.y;
             let desired = ball.posy - this.height/2;
             let desiredX=ball.posx+BALL_RADIUS;
-            let errorX=desiredX-this.posx;
+            let errorX=desiredX-this.posx+this.width/2;
             let error=desired-this.posy;
             let touchedSide=true;
             console.log(ball.velx)
@@ -70,23 +70,21 @@ class Paddle {
                 }
                 if(ball.posx>=200){
                     if(this.posx>BOARD_WIDTH-this.width*2&&Math.abs(errorX)<10&&touchedSide){
-                        this.velx=-20;
+                        this.velx=-10;
                         touchedSide=false;
                     } else{
-                        this.velx=Math.min(PADDLE_VELOCITY,Math.max(-PADDLE_VELOCITY,errorX*0.5));
+                        this.velx=Math.min(PADDLE_VELOCITY-3,Math.max(-PADDLE_VELOCITY+3,errorX*0.5));
                     }
                 }else{
-                    this.velx=-5;
-                    this.posx+=this.velx;
                     this.velx=Math.min(PADDLE_VELOCITY,Math.max(-PADDLE_VELOCITY,(BOARD_WIDTH-this.posx+this.width))*0.1)
                 }
-                if(Math.abs(error)<2){
-                    this.vely=Math.min(PADDLE_VELOCITY,Math.max(-PADDLE_VELOCITY,error));          
-                }else{
-                    this.vely=Math.sign(error)*4;
+                this.vely=Math.min(PADDLE_VELOCITY-3,Math.max(-PADDLE_VELOCITY+3,error*0.4));
+                if(Math.abs(errorX)>4&&ball.vely<5){
+                    touchedSide=false;
+                    this.velx=3;
                 }
                 if(Math.abs(ball.velx)<=0.5){
-                this.velx=2;
+                    this.velx=2;
                     if(!is_hard){
                         this.vely*=0.7;
                     }
@@ -99,14 +97,29 @@ class Paddle {
     }
 
     bounce(ball) {
+        let desired = ball.posy - this.height/2;
+        let error=desired-this.posy;
         let bounce_dir=Math.sign(BOARD_WIDTH/2-this.posx);
         if(this.startposx>BOARD_WIDTH/2&&this.posx<BOARD_WIDTH/2){
             bounce_dir=-1;
         }else if(this.startposx<BOARD_WIDTH/2&this.posx>BOARD_WIDTH/2){
             bounce_dir=1;   
         }
+        if((this.startposx<BOARD_WIDTH/2&&ball.posx<=this.posx)||(this.startposx>BOARD_WIDTH/2&&ball.posx>=this.posx+this.width)){
+            bounce_dir=-bounce_dir;
+        }
+        if(ball.posy<=this.posy+this.height&&ball.posy>=this.posy&&this.startposx<BOARD_WIDTH/2&&this.posx<this.width&&ball.posx<=this.width+1+this.posx){
+            ball.velx=1;
+        }else if(ball.posy<=this.posy+this.height&&ball.posy>=this.posy&&this.startposx>BOARD_WIDTH/2&&this.posx>BOARD_WIDTH-this.width-1&&ball.posx>=this.posx-this.width){
+            ball.velx=-1;
+        }
         Model.ballDir=bounce_dir;
         // try bounce ball
+        if(ball.posy>=this.posy&&Math.abs(error)<0.4&&this.posx+this.width>=Math.abs(ball.posx+BALL_RADIUS-this.posx-this.width/2)&&this.posx<=Math.abs(ball.posx+BALL_RADIUS-this.posx-this.width/2)){
+            ball.vely=-1;
+        }else if(ball.posy<=this.posy&&Math.abs(error)<0.4&&this.posx+this.width>=Math.abs(ball.posx+BALL_RADIUS-this.posx-this.width/2)&&this.posx<=Math.abs(ball.posx+BALL_RADIUS-this.posx-this.width/2)){
+            ball.vely=1;
+        }
         if (ball.posy+BALL_RADIUS >= this.posy && ball.posy-BALL_RADIUS <= this.posy + this.height && // within y
             (ball.posx-BALL_RADIUS<= this.posx+this.width && ball.posx + BALL_RADIUS >= this.posx)// ball going into wall
         ) {

@@ -38,6 +38,8 @@ class Model {
     resetBall() {
         this.ballDir=1+(Math.round(Math.random())*-2);
         this.ball = new Ball(BOARD_WIDTH / 2, BOARD_HEIGHT / 2,1+(Math.round(Math.random())*-2), Math.random()*2-1);
+        this.paddleL = new Paddle(0, BOARD_HEIGHT/2, PADDLE_WiDTH, PADDLE_HEIGHT, SIDE.LEFT, "white");
+        this.paddleR = new Paddle(BOARD_WIDTH - PADDLE_WiDTH, BOARD_HEIGHT/2, PADDLE_WiDTH+this.scoreL, PADDLE_HEIGHT, SIDE.RIGHT, "red");
     }
 
 }
