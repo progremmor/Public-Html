@@ -32,7 +32,7 @@ class Model {
         clearTimeout(this.intervalID);
         this.resetBall();
         this.paddleL = new Paddle(0, BOARD_HEIGHT/2, PADDLE_WiDTH, PADDLE_HEIGHT, SIDE.LEFT, "white");
-        this.paddleR = new Paddle(BOARD_WIDTH - PADDLE_WiDTH, BOARD_HEIGHT/2, PADDLE_WiDTH+this.scoreL, PADDLE_HEIGHT, SIDE.RIGHT, "lightgray");
+        this.paddleR = new Paddle(BOARD_WIDTH - PADDLE_WiDTH, BOARD_HEIGHT/2, PADDLE_WiDTH+this.scoreL, PADDLE_HEIGHT, SIDE.RIGHT, "red");
     }
 
     resetBall() {
