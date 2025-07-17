@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="aicook.css">
+    <script src="aicook.js" defer></script>
+    <title>AI Cook</title>
+</head>
+<body>
+    <div id="Container">
+        <header>
+            <h1>AI Cook</h1>
+            <p>Use AI to generate a recipe</p>
+        </header>
+        <main>
+            <div class="input-sect">
+                <div class="API-Key">
+                    <label for="api-key"> API Key:</label>
+                    <input type="password" id="api-key" placeholder="Place API key here : Pon la clave de Gemeni API aquí">
+                    <button id="save-api-key">Save API Key</button>
+                </div>
+            </div>
+            <div id="Ingredients" class="ingredients-section">
+                <label for="ingredients">Available ingredients</label>
+                <input type="text" id="ingredients" placeholder="what do you like to cook with">
+            </div>
+            <div class ="preference-selection">
+                <label for="Diet"> Dietary Preferences (optional)</label>
+                <select id="Diet">
+                    <option value="">None</option>
+                    <option value="vegetarian">Vegetarian</option>
+                    <option value="vegan">Vegan</option>
+                    <option value="gluten-free">Gluten-free</option>
+                    <option value="dairy-free">Dairy-free</option>
+                    <option value="low-carb">Low-carb"</option>
+                    <option value="pescatarian">Pescatarian</option>
+                    <option value="paleo">Paleo</option>
+                    <option value="keto">Keto</option>
+                </select>
+            </div>
+            <div class="cuisine-selection">
+                <label for="Cuisine">Cuisine (optional)</label>
+                <select id="Cuisine">
+                    <option value="">None</option>
+                    <option value="italian">Italian</option>
+                    <option value="mexican">Mexican</option>
+                    <option value="chinese">Chinese</option>
+                    <option value="japanese">Japanese</option>
+                    <option value="indian">Indian</option>
+                    <option value="american">American</option>
+                    <option value="french">French</option>
+                    <option value="thai">Thai</option>
+                    <option value="greek">Greek</option>
+                    <option value="spanish">Spanish</option>
+                    <option value="german">German</option>
+                    <option value="french">French</option>
+                </select>
+            </div>
+            <button id="makeRecipe" class="generate-btn">Generate Recipe</button>
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <p>Something Smells Good...</p>
+            </div>
+            <div class="recipe-section" id="recipeSection">
+                <h2>Generated Recipe</h2>
+                <div id="recipeContent">
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

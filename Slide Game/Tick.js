@@ -1,6 +1,5 @@
-function M1(index){
-
-}
+let scrambled=false;
+let scrambling=false;
 let availableNum=[];
 let box=[];
 let puzzleBox=[];
@@ -23,8 +22,63 @@ function start(){
     }
     //console.log(randomizedArr);
 }
+function findBlank(){
+    let coord=[0,0];
+    for(let i=0;i<4;i++){
+        for(let k=0;k<4;k++){
+            if(puzzle[i][k].innerHTML==" "){
+                coord[0]=i;
+                coord[1]=k;
+                return coord;
+            }
+        }
+    }
+
+}
+let counter=0;
+let oldX=-1;
+let oldY=-1;
 function scramble(){
-    
+    if(counter<500){
+        let blankCoord=findBlank();
+        let vert=0;
+        let hori=0;
+        let newX=0;
+        let newY=0;
+        do{
+            let rando=Math.round(Math.random()*4+1)
+            switch(rando){
+                case 1:
+                    vert=1;
+                    hori=0;
+                    break;
+                case 2:
+                    vert=-1;
+                    hori=0;
+                    break;
+                case 3:
+                    hori=1;
+                    vert=0;
+                    break;
+                case 4:
+                    hori=-1;
+                    vert=0;
+                    break;
+            }
+            newX=blankCoord[0]+hori;
+            newY=blankCoord[1]+vert;
+        }while((newX<0||newX>3||newY<0||newY>3)||(newX==oldX&&newY==oldY))
+        puzzle[blankCoord[0]][blankCoord[1]].innerHTML=puzzle[newX][newY].innerHTML;
+        puzzle[newX][newY].innerHTML=" ";
+        oldX=newX;
+        oldY=newY;
+        counter++;
+        setTimeout(scramble, 10);
+    }else{
+        scrambled=true;
+        counter=0;
+        return;
+    }
 }
 const puzzle=createPuzzleBox();
 function setUp(schtuff){
@@ -37,6 +91,7 @@ function setUp(schtuff){
     }
 }
 function M1(x,y){
+    if(!scrambled) return;
     let blankNear=false;
     let X =[-1,0,0,1];
     let Y =[0,-1,1,0];
@@ -61,3 +116,4 @@ function M1(x,y){
 }
 start();
 setUp(box);
+scramble();

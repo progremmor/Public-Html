@@ -70,7 +70,7 @@ class Paddle {
                 }
                 if(ball.posx>=200){
                     if(this.posx>BOARD_WIDTH-this.width*2&&Math.abs(errorX)<10&&touchedSide){
-                        this.velx=-10;
+                        this.velx=-7;
                         touchedSide=false;
                     } else{
                         this.velx=Math.min(PADDLE_VELOCITY-3,Math.max(-PADDLE_VELOCITY+3,errorX*0.5));
@@ -79,8 +79,7 @@ class Paddle {
                     this.velx=Math.min(PADDLE_VELOCITY,Math.max(-PADDLE_VELOCITY,(BOARD_WIDTH-this.posx+this.width))*0.1)
                 }
                 this.vely=Math.min(PADDLE_VELOCITY-3,Math.max(-PADDLE_VELOCITY+3,error*0.4));
-                if(Math.abs(errorX)>4&&ball.vely<5){
-                    touchedSide=false;
+                if(Math.abs(errorX)>15&&ball.vely<5){
                     this.velx=3;
                 }
                 if(Math.abs(ball.velx)<=0.5){
