@@ -34,6 +34,7 @@
     overflow:hidden;
     background:rgba(127,255,212,0.5);
     animation: unHover 0.3s forwards;
+    border-width:5px;
 }
 @keyframes unHover{
     0% {transform:translateY(-20px);
