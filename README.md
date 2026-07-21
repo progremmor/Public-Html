@@ -1,1 +1,1 @@
-Credit: CS Program WPI Frontiers
+Credit: From CS Program WPI Frontiers
