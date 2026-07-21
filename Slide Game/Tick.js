@@ -38,7 +38,16 @@ function findBlank(){
 let counter=0;
 let oldX=-1;
 let oldY=-1;
-function scramble(){
+function scramble(event){
+    if(event){
+        if(scrambling) return;
+        scrambling=true;
+        scrambled=false;
+        counter=0;
+        oldX=-1;
+        oldY=-1;
+    }
+    if(!scrambling) return;
     if(counter<500){
         solved=false;
         let blankCoord=findBlank();
@@ -77,6 +86,7 @@ function scramble(){
         setTimeout(scramble, 10);
     }else{
         scrambled=true;
+        scrambling=false;
         counter=0;
         return;
     }
@@ -127,7 +137,7 @@ function M1(x,y){
 let solved=false;
 function checkFinished(){
     requestAnimationFrame(checkFinished);
-    if(solved) return;
+    if(!scrambled || solved) return;
     for(i=0;i<4;i++){
         for(let k=0;k<4;k++){
             checkerCount++;
@@ -147,4 +157,3 @@ function checkFinished(){
 checkFinished();
 start();
 setUp(box);
-scramble();
