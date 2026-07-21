@@ -40,6 +40,7 @@ let oldX=-1;
 let oldY=-1;
 function scramble(){
     if(counter<500){
+        solved=false;
         let blankCoord=findBlank();
         let vert=0;
         let hori=0;
@@ -90,6 +91,7 @@ function setUp(schtuff){
         }
     }
 }
+let checkerCount=0;
 function M1(x,y){
     if(!scrambled) return;
     let blankNear=false;
@@ -112,8 +114,37 @@ function M1(x,y){
             break;
         }
     }
-
+    for(i=0;i<4;i++){
+        for(let k=0;k<4;k++){
+            if(puzzle[i][k]!=checkerCount&&checkerCount!=16){
+                return;
+            }
+            checkerCount++;
+        }
+    }
+    alert("You Finished");
 }
+let solved=false;
+function checkFinished(){
+    requestAnimationFrame(checkFinished);
+    if(solved) return;
+    for(i=0;i<4;i++){
+        for(let k=0;k<4;k++){
+            checkerCount++;
+            console.log(checkerCount);
+
+            if(puzzle[i][k].innerHTML!=checkerCount&&checkerCount!=16){
+                checkerCount=0;
+                return;
+            }
+
+        }
+    }
+    checkerCount=0;
+    alert("You Finished");
+    solved=true;
+}
+checkFinished();
 start();
 setUp(box);
 scramble();
