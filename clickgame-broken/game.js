@@ -3,6 +3,7 @@ const stores = document.getElementsByClassName("store");
 const score_element = document.getElementById("score");
 const SPS_element = document.getElementById("SPS");
 const dmg=document.getElementById("damage");
+const superCost=document.getElementById("sGCost");
 let music = document.getElementById("bunnyBoss");
 let BunnyWrinkler=document.getElementById("Bunny");
 let score = 50;
@@ -38,8 +39,9 @@ function spawnLeBunny(){
     document.body.appendChild(Bun);
     let x=Math.random()*(window.innerHeight-BunnyWrinkler.offsetHeight)+"px";
     let y=Math.random()*(window.innerWidth-BunnyWrinkler.offsetWidth)+"px";
-    Bun.setAttribute("x",x);
-    Bun.setAttribute("y",y);
+    Buny.style.left=x;
+    Buny.style.top=y;
+    Buny.style.zIndex=100;
     BunnyEats(Bun,bunHp,bunScoreStored);
 
 }
@@ -81,7 +83,7 @@ function bunSpawnTimer(){
     if(score>7000){
         bunLim+=Math.round((score-7000)/2)
     }
-    setTimeout(bunSpawnTimer,18000);
+    setTimeout(bunSpawnTimer,(18000*score/2)/score);
 }
 function bunGettingCooked(bun){
     let hp=bun.getAttribute("Hp");
@@ -147,7 +149,9 @@ function buy(store) {
         if (super_gompei) {
             super_gompei_count += 1;
             document.body.style = "--gompei-count: " + super_gompei_count + ";"
+            super_gompei.setAttribute("cost", (parseInt(super_gompei.getAttribute("cost")) + 250));
             super_gompei.setAttribute("reap", (parseInt(super_gompei.getAttribute("reap")) + 100));
+            superCost.innerHTML=parseInt(super_gompei.getAttribute("cost"))+" points";
             return;
         }
     }
